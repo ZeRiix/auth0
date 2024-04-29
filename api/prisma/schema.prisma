@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String                @id @default(uuid())
+  email        String                @unique
+  name         String?               @db.VarChar(100)
+  password     String                @db.Text()
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  application  UsersOnApplications[] @relation("user")
+  activated    Boolean               @default(false)
+  role         RolesOfUsers[]        @relation("role")
+  resetPass    ResetPassword[]
+}
+
+model Application {
+  id         String                @id @default(uuid())
+  name       String                @db.VarChar(100)
+  privateKey String                @db.Text()
+  publicKey  String                @db.Text()
+  expiresIn  Int                   @default(3600)
+  info       Json?
+  createdAt  DateTime              @default(now())
+  updatedAt  DateTime              @updatedAt
+  user       UsersOnApplications[] @relation("application")
+  role       Role[]
+}
+
+model Role {
+  id             String         @id @default(uuid())
+  name           String         @db.VarChar(100)
+  addedUser      Boolean        @default(false)
+  manageRole     Boolean        @default(false)
+  manageApp      Boolean        @default(false)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  application    Application    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId  String
+  user           RolesOfUsers[] @relation("permision")
+}
+
+model UsersOnApplications {
+  user            User           @relation("user", fields: [userId], references: [id])
+  userId          String
+  application     Application    @relation("application", fields: [applicationId], references: [id])
+  applicationId   String
+  info            Json?
+  assignedAt      DateTime       @default(now())
+  updatedAssignAt DateTime       @updatedAt
+
+  @@id([userId, applicationId])
+}
+
+model RolesOfUsers {
+  user            User           @relation("role", fields: [userId], references: [id])
+  userId          String
+  role            Role           @relation("permision", fields: [roleId], references: [id])
+  roleId          String
+  assignedAt      DateTime       @default(now())
+  updatedAssignAt DateTime       @updatedAt
+
+  @@id([userId, roleId])
+}
+
+model ResetPassword {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

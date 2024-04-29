@@ -1,0 +1,6 @@
+<div class="tooltip-container">
+    <ng-content></ng-content>
+    <div class="tooltip-content" [ngStyle]="positionStyle" *ngIf="isVisible">
+        {{ content }}
+    </div>
+</div>

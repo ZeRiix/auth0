@@ -1,0 +1,14 @@
+version: '3.6'
+services:
+  # bdd postgres
+  auth0-bdd:
+    image: postgres
+    restart: always 
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: auth0
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'

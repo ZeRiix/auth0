@@ -1,0 +1,54 @@
+<!-- Lit Mode -->
+<div class="file-explorer list-view" *ngIf="viewMode === 'list'">
+    <div class="container">
+        <div class="item" *ngFor="let item of items">
+            <input type="checkbox" [checked]="isSelected(item)" (change)="toggleSelection(item)" />
+            <div class="icon">
+                <!-- svg -->
+            </div>
+            <div class="name">
+                Nom du fichier/dossier
+            </div>
+            <div class="creation-date">
+                Date de création
+            </div>
+            <div class="modification-date">
+                Date de modification
+            </div>
+            <div class="size">
+                Taille
+            </div>
+            <div class="type">
+                Type (fichier/dossier)
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Preview Mode-->
+<div class="file-explorer preview-view">
+    <div class="container">
+        <div class="image-item" *ngFor="let image of images">
+            <input type="checkbox" [checked]="isSelected(image)" (change)="toggleSelection(image)" />
+            <img src="{{image.url}}" alt="{{image.name}}" />
+            <div class="image-label">{{image.name}}</div>
+        </div>
+    </div>
+</div>
+
+<!-- Grid Mode-->
+<div class="file-explorer grid-view" *ngIf="viewMode === 'grid'">
+    <div class="file-item" *ngFor="let file of files">
+        <input type="checkbox" [checked]="isSelected(file)" (change)="toggleSelection(file)" />
+        <div class="file-icon">
+            <!-- svg -->
+            <img src="path_to_your_icon.png" alt="File Icon">
+        </div>
+        <div class="file-details">
+            <div class="file-name">{{ file.name }}</div>
+            <div class="file-date">{{ file.createdAt | date }}</div>
+            <div class="file-modified">{{ file.updatedAt | date }}</div>
+            <div class="file-size">{{ file.size }}</div>
+            <div class="file-type">{{ file.mimeType }}</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+.file-explorer {
+    width: 100%;
+    padding: 1.25rem; // 20px
+    box-sizing: border-box;
+
+    .file-item {
+        padding: 0.625rem; // 10px
+        border: 0.0625rem solid #ddd; // 1px
+        border-radius: 0.3125rem; // 5px
+        transition: box-shadow 0.3s, transform 0.3s;
+
+        &:hover {
+            box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1); // 10px
+        }
+
+        .file-icon {
+            img {
+                width: 3.125rem; // 50px
+                height: 3.125rem; // 50px
+                margin-right: 0.625rem; // 10px
+            }
+        }
+
+        .file-details {
+
+            .file-name,
+            .file-date,
+            .file-modified,
+            .file-size,
+            .file-type {
+                margin-bottom: 0.3125rem; // 5px
+            }
+        }
+    }
+
+    // Mode Liste
+    &.list-view {
+        .file-item {
+            display: flex;
+            align-items: center;
+
+            .file-icon {
+                flex-shrink: 0;
+            }
+
+            .file-details {
+                flex-grow: 1;
+
+                .file-name {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    // Mode Grille
+    &.grid-view {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr)); // 200px
+        gap: 1.25rem; // 20px
+
+        .file-item {
+            .file-icon {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 0.625rem; // 10px
+            }
+        }
+    }
+
+    // Mode Preview
+    &.preview-view {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1.25rem; // 20px
+
+        .file-item {
+            .file-icon {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 0.625rem; // 10px
+
+                img {
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                }
+            }
+
+            .file-details {
+                display: none; // Cache les détails dans le mode preview
+            }
+        }
+    }
+}
+
+.file-item,
+.image-item {
+    display: flex;
+    align-items: center;
+
+    input[type="checkbox"] {
+        margin-right: 0.625rem; // 10px
+    }
+}
